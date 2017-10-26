@@ -1,0 +1,46 @@
+<div *ngIf="!loginStatus">
+<div class="wrapper">
+   
+  <form class="form-signin"> 
+    <div style="margin:0 auto;padding-bottom:10px" class="text-center">     
+      <img src="/assets/logo.jpg" width="150" height="50" class="d-inline-block align-top"  alt="">
+    </div> 
+    <!-- <h2 class="form-signin-heading">Please login</h2> -->
+    <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" />
+    <br/>
+    <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
+  <br/>      
+    <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="validate()">Login</button>   
+  </form>
+</div>
+</div>
+<div *ngIf="loginStatus">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            
+          <div class="navbar-header">
+              <a class="navbar-brand" href="#">
+                  <img src="/assets/logo.jpg" width="150" height="52" class="d-inline-block align-top" alt="">
+                </a>
+          </div>
+       
+          <ul class="nav navbar-nav navbar-right">
+              <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><a routerLink=""><span class="glyphicon glyphicon-th">  </span><strong>RMA Dashboard</strong></a></li>
+              <li routerLinkActive="active"><a routerLink="reports"><span class="glyphicon glyphicon-folder-open"></span>  <strong>Reports</strong></a></li>
+              <li routerLinkActive="active"><a routerLink="contact"><span class="glyphicon glyphicon-envelope"></span>  <strong>Contact Us</strong></a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-log-out"></span>  <strong>Logout</strong></a></li>
+          </ul>
+        </div>
+      </nav><div class="jumbotron ">
+          <h1 class="text-center" style="font-family:Georgia, 'Times New Roman', Times, serif">Test And Diagnostics Portal</h1>  
+        </div>
+       <br/><br/><br/>
+   
+   
+      <div class="container" >
+        
+        <router-outlet></router-outlet>
+          
+    </div>
+ 
+</div>

@@ -1,0 +1,146 @@
+<div *ngIf="!isSelected && !testPage">
+    <ol class="breadcrumb">
+        <li><button type="button" class="btn btn-link" (click)="routeRMA()">RMA</button></li>
+        <li>GUIDs</li>
+      </ol>
+    <div class="page-header">
+        <h1 class="text-center">RMA ID : {{rmaid}}&nbsp;/Date :{{date}}</h1>
+    </div><br>
+<div class="jumbotron">
+    <p>New CH</p>      
+    <form class="form-inline">
+        <div class="form-group col-md-5">
+          <label for="rmaid">GUID:</label>
+          <input required type="text" class="form-control " id="rmaid">
+        </div>&nbsp;&nbsp;
+        <div class="form-group col-md-5">
+            <label for="file">File:</label>
+            <input required type="file" class="form-control" id="file">
+          </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-primary">Add CH</button>
+      </form>
+      
+  </div>
+  <br><br>
+  <table class="table table-bordered table-hover">
+      <thead class="thead-inverse">
+        <tr>
+          <th rowspan="2" class="text-center">#</th>
+          <th rowspan="2" class="text-center">Guid</th>
+          <th colspan="2" class="text-center">Physical Inspection</th>
+          <th rowspan="2" class="text-center">Test Completion Date</th>
+        </tr>
+        <tr>
+            <th class="text-center">Accept</th>
+            <th class="text-center">Reject</th>
+          </tr>
+      </thead>
+      <tbody>
+       
+        <tr *ngFor="let guid of guid; let i = index">
+          <td class="text-center">{{i+1}}</td>
+          <td class="text-center"><button type="button" class="btn btn-link"  (click)="displayResults(i)">{{guid.guid}}</button></td>
+          <td class="text-center col-md-3"><button type="button" class="btn btn-primary">Accept</button></td>
+          <td class="text-center col-md-3"> <div class="row"> <div class="col-sm-6">
+            <select class="form-control">
+                <option>Select</option>
+              <option>Damaged</option>
+              <option>Insufficient Packaging</option>
+              <option>Non-Toshiba device</option>
+              <option>Item not received</option>
+              <option>No RMA claim received</option>
+            </select></div> <div class="col-sm-2"><button type="button" class="btn btn-primary">Reject</button></div></div></td>
+          <td class="text-center">{{guid.completionTime}}</td>
+        </tr>
+    
+      </tbody>
+    </table>
+
+</div>
+
+<div  *ngIf="isSelected">
+    <ol class="breadcrumb">
+        <li><button type="button" class="btn btn-link"  (click)="routeRMA()">RMA</button></li>
+        <li><button type="button" class="btn btn-link" (click)="routeGUID()">GUIDs</button></li>
+        <li>Results</li>
+      </ol>
+    <div class="page-header">
+        <h1 class="text-center">RMA ID : {{rmaid}}&nbsp;/Date :{{date}}</h1>
+        <h1 class="text-center"><small>Test Bench results for GUID:{{selectedGuid.guid}}</small> </h1>
+    </div><br>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-inverse">
+          <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Tests</th>
+            <th class="text-center">Test bench Result</th>
+            <th class="text-center">Toshiba Test result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of selectedGuid.processedResult; let i = index">
+            <td class="text-center">{{i+1}}</td>
+            <td class="text-center"  *ngIf="getResultType(result.result)=='PASS'">{{getTestName(result.test_type)}}</td>
+            <td class="text-center bg-danger" *ngIf="getResultType(result.result)=='FAIL'" ><button type="button" class="btn btn-link" (click)="displayTestPage(result.test_type)">{{getTestName(result.test_type)}}</button></td>
+            <td class="text-center">{{getResultType(result.result)}}</td>
+            <td class="text-center">{{getResultType(result.reTestResult)}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br><br>
+      <div class="jumbotron">     
+          <form class="form-inline">
+              <div class="form-group col-md-5">
+                <label for="date">Test Completion Date:</label>
+                <input  type="date" class="form-control" id="date">
+              </div>
+              <div class="form-group col-md-5 ">
+                  <label for="date">Commshub Test Outcome:</label>
+           <select class="form-control">
+               <option>Contractor Fault</option>
+               <option>NFF</option>
+            </select>
+         </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            
+        </div>      
+</div>
+
+<div *ngIf="testPage">
+    <ol class="breadcrumb">
+        <li><button type="button" class="btn btn-link"  (click)="routeRMA()">RMA</button></li>
+        <li><button type="button" class="btn btn-link" (click)="routeGUID()">GUIDs</button></li>
+        <li><button type="button" class="btn btn-link" (click)="routeResults()">Results</button></li>
+        <li>Test</li>
+      </ol>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="jumbotron">
+              <form class="form">
+                  <div class="form-group">
+                      <label for="comment">Actual Outcome:</label>
+                      <textarea class="form-control" style="resize:vertical;" rows="10" id="comment"></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label for="date">Result:</label>
+               <select class="form-control">
+                   <option>Select</option>
+                   <option>PASS</option>
+                   <option>FAIL</option>
+                </select>
+             </div>
+             <div class="form-group">
+                <label for="file">Test Evidence:</label>
+                <input required type="file" class="form-control" id="file"><br> 
+              </div>
+                  <button type="submit" class="btn btn-primary btn-block">Save</button>
+                </form>
+                
+          </div>
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron"><h1>pdf embed</h1></div>
+        </div>
+      </div>
+</div>
