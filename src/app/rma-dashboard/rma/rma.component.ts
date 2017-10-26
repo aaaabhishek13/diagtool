@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { rma } from '../rma';
 import { ToolService } from '../../tool.service';
 import { Guid } from "../guid/guid";
+
 declare var $: any;
+
 @Component({
   selector: 'app-rma',
   templateUrl: './rma.component.html',

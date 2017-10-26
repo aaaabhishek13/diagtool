@@ -9,6 +9,7 @@ export class  Guid{
     public testBenchResults=[];
     public ReTestResult=[];
     public processedResult=[];
+    public selectionFlag:boolean=false;
 constructor(rmaid:string,guid:string,id:number,physicalInspectionResult:number,rejectReason:string,completionTime:string,testOutcome:string,testBenchResults:any[],ReTestResult:any[]){
 
     this.rmaid=rmaid;

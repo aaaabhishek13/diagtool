@@ -3,6 +3,8 @@ import { Guid } from "./guid";
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToolService } from '../../tool.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-guid',
   templateUrl: './guid.component.html',
@@ -17,6 +19,8 @@ export class GuidComponent implements OnInit {
   isSelected:boolean=false;
   testPage:boolean=false;
   selectedGuid:Guid;
+  count:number=0;
+  deleteText:string="Are you sure you want to delete these CHs?";
 
   constructor(private route:ActivatedRoute,private service:ToolService,private router:Router) {
    
@@ -77,4 +81,32 @@ export class GuidComponent implements OnInit {
   public onReject(i:number){
     this.guid[i].physicalInspectionResult=2;
   }
+
+  public onChange(event,i:number){
+    //console.log(event.target.checked);
+    this.guid[i].selectionFlag=event.target.checked;
+  }
+  public onDelete(){
+    var count=this.selectionCount();
+    if(count==0){
+      this.deleteText="Select some CH for Deletion";
+      $("#deleteModal").modal();
+      return;
+    }else{
+      this.deleteText="Are you sure you want to delete these CHs?";
+    $("#deleteModal").modal();
+    return;
+
+  }
+}
+
+  public selectionCount(){
+    this.count=0;
+    for (var i = 0; i < this.guid.length; i++) {
+      if(this.guid[i].selectionFlag==true){
+        this.count++
+      }
+  }
+  return this.count;
+  } 
 }
