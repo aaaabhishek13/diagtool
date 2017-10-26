@@ -1,4 +1,3 @@
-<br><br><br>
 <div class="jumbotron">
     <p>New RMA</p>      
     <form class="form-inline">
@@ -13,18 +12,19 @@
         <div class="form-group">
             <label for="file">File:</label>
             <input required type="file" class="form-control" id="file">
-          </div>
+          </div>&nbsp;&nbsp;&nbsp;
         <button type="submit" class="btn btn-primary">Create</button>
       </form>
       
   </div>
-  <br><br>
+  <br>
 <table class="table table-striped table-bordered table-hover">
     <thead class="thead-inverse">
       <tr>
         <th class="text-center">#</th>
         <th class="text-center">Rmaid</th>
         <th class="text-center">Date</th>
+        <th class="text-center"></th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +32,83 @@
         <td class="text-center">{{i+1}}</td>
         <td class="text-center"><a routerLink="/guid" [queryParams]="{rma:rma.rmaNo,date:rma.creationTime}">{{rma.rmaNo}}</a></td>
         <td class="text-center">{{rma.creationTime}}</td>
+        <td class="text-center"><input type="checkbox" value="" (change)="onChange($event,i)"></td>
       </tr>
     </tbody>
   </table>
+  <br>
+  <div class="btn-group btn-group-justified" role="group" >
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" (click)="goPrevious()"><span class="glyphicon glyphicon-backward"></span> Previous</button>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary">Report</button>
+      </div>
+      <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary" (click)="onDelete()">Delete</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary" (click)="showModify()">Modify</button>
+          </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" (click)="goNext()">Next <span class="glyphicon glyphicon-forward"></span></button>
+      </div>
+    </div>
+    <br>
+    <div class="jumbotron" *ngIf="modifyFlag">
+        <form class="form-inline">
+            <div class="form-group col-md-5">
+              <label for="input">RMA ID:</label>&nbsp;
+              <input  type="text" class="form-control" id="date">
+            </div>
+            <div class="form-group  col-md-5">
+                <label for="date">Date:</label>&nbsp;
+                <input type="date" class="form-control" id="date">
+              </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+
+    </div>
+
+
+  
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">Delete</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" >
+            <p>{{deleteText}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" *ngIf="count">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modify Modal -->
+  <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog"  aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">Modify</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              Select valid number of RMA for Modification. 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>

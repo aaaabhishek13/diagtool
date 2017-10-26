@@ -70,4 +70,11 @@ export class GuidComponent implements OnInit {
     this.testPage=true;
   }
 
+  public onAccept(i:number){
+    this.guid[i].physicalInspectionResult=1;
+  }
+ 
+  public onReject(i:number){
+    this.guid[i].physicalInspectionResult=2;
+  }
 }

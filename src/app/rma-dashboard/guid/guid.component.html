@@ -39,9 +39,11 @@
        
         <tr *ngFor="let guid of guid; let i = index">
           <td class="text-center">{{i+1}}</td>
-          <td class="text-center"><button type="button" class="btn btn-link"  (click)="displayResults(i)">{{guid.guid}}</button></td>
-          <td class="text-center col-md-3"><button type="button" class="btn btn-primary">Accept</button></td>
-          <td class="text-center col-md-3"> <div class="row"> <div class="col-sm-6">
+          <td class="text-center" *ngIf="guid.physicalInspectionResult==2 || guid.physicalInspectionResult==0"><button type="button" class="btn btn-link"  (click)="displayResults(i)" disabled>{{guid.guid}}</button></td>
+          <td class="text-center" *ngIf="guid.physicalInspectionResult==1"><button type="button" class="btn btn-link"  (click)="displayResults(i)" >{{guid.guid}}</button></td>
+          <td *ngIf="guid.physicalInspectionResult==0 || guid.physicalInspectionResult==2" class="text-center col-md-3"><button type="button" class="btn btn-secondary" (click)="onAccept(i)">Accept</button></td>
+          <td *ngIf="guid.physicalInspectionResult==1" class="text-center col-md-3"><button type="button" class="btn btn-success" disabled>Accept</button></td>
+          <td class="text-center col-md-3" *ngIf="guid.physicalInspectionResult==0 || guid.physicalInspectionResult==1"> <div class="row"> <div class="col-sm-6">
             <select class="form-control">
                 <option>Select</option>
               <option>Damaged</option>
@@ -49,7 +51,10 @@
               <option>Non-Toshiba device</option>
               <option>Item not received</option>
               <option>No RMA claim received</option>
-            </select></div> <div class="col-sm-2"><button type="button" class="btn btn-primary">Reject</button></div></div></td>
+            </select></div> <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="onReject(i)">Reject</button></div></div></td>
+            <td class="text-center col-md-3" *ngIf="guid.physicalInspectionResult==2"> <div class="row"> <div class="col-sm-6">
+                <input type="text" class="form-control" [(ngModel)]="guid.rejectReason" disabled>
+              </div> <div class="col-sm-2"><button type="button" class="btn btn-danger"disabled>Reject</button></div></div></td>
           <td class="text-center">{{guid.completionTime}}</td>
         </tr>
     

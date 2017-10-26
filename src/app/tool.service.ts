@@ -20,5 +20,9 @@ export class ToolService{
         return this.http.get('assets/devicelist.json').map((res:Response)=>(res.json()));
     }
 
+    public updateCh(){
+        
+    }
+
 }
 
