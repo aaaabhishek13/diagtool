@@ -1,3 +1,26 @@
+<script type="text/javascript">     
+  google.charts.load('current', {'packages':['corechart']});
+   google.charts.setOnLoadCallback(drawChart);
+
+   function drawChart() {
+
+     var data = google.visualization.arrayToDataTable([
+       ['Task', 'Hours per Day'],
+       ['Work',     11],
+       ['Eat',      2],
+       ['Commute',  2],
+       ['Watch TV', 2],
+       ['Sleep',    7]
+     ]);
+
+     var options = {
+       title: 'My Daily Activities'
+     };
+
+     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+     chart.draw(data, options);
+   }</script>
 <div class="panel panel-default" >
     <div class="panel-heading">
       <h3 class="panel-title">Reports by RMA</h3>
@@ -14,7 +37,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let rma of rma | slice:start:end; let i = index">
-                  <td class="text-center">{{i+1}}</td>
+                  <td class="text-center" [textContent]="start+i+1"></td>
                  <td class="text-center">{{rma.rmaNo}}</td>
                   <td class="text-center">{{rma.creationTime}}</td>
                 <td class="text-center"><input type="checkbox" value=""></td>
@@ -78,11 +101,7 @@
                 <div class="form-group col-md-10">
                    
             <select class="form-control">
-                <option>Damaged</option>
-                <option>Insufficient Packaging</option>
-                <option>Non-Toshiba device</option>
-                <option>Item not received</option>
-                <option>No RMA claim received</option>
+                <option *ngFor="let test of testList">{{test}}</option>
               </select>
           </div>
               <button type="submit" class="btn btn-primary">Generate Report</button>
@@ -103,4 +122,5 @@
     </div>
 
 
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
     

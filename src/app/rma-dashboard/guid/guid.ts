@@ -10,6 +10,30 @@ export class  Guid{
     public ReTestResult=[];
     public processedResult=[];
     public selectionFlag:boolean=false;
+    public rejectSelection:string='Select';
+    public static testList=["SimTest",
+                            "CurrentTest",
+                            "TimeTest",
+                            "ComponentTestCPU",
+                            "ComponentTestRam",
+                            "ComponentTestFlash",
+                            "ComponentTestVoltage",
+                            "ComponentTesthan",
+                            "ComponentTestWan",
+                            "ComponentTestMesh",
+                            "LedTest",
+                            "MeterPresent",
+                            "ChargingTest",
+                            "WCDMAEXT",
+                            "GPRSEXT",
+                            "WCDMAINT",
+                            "GPRSINT",
+                            "ZigbeeTxTest",
+                            "ZigbeeRxTest",
+                            "MeshINT",
+                            "MeshEXT",
+                            "DischargingTest"
+                            ];
 constructor(rmaid:string,guid:string,id:number,physicalInspectionResult:number,rejectReason:string,completionTime:string,testOutcome:string,testBenchResults:any[],ReTestResult:any[]){
 
     this.rmaid=rmaid;
@@ -25,30 +49,8 @@ constructor(rmaid:string,guid:string,id:number,physicalInspectionResult:number,r
 }
 
     public static getTestName(i:number):string{
-        const testList=["SimTest",
-            "CurrentTest",
-            "TimeTest",
-            "ComponentTestCPU",
-            "ComponentTestRam",
-            "ComponentTestFlash",
-            "ComponentTestVoltage",
-            "ComponentTesthan",
-            "ComponentTestWan",
-            "ComponentTestMesh",
-            "LedTest",
-            "MeterPresent",
-            "ChargingTest",
-            "WCDMAEXT",
-            "GPRSEXT",
-            "WCDMAINT",
-            "GPRSINT",
-            "ZigbeeTxTest",
-            "ZigbeeRxTest",
-            "MeshINT",
-            "MeshEXT",
-            "DischargingTest"
-            ];
-            return testList[i-1];
+       
+            return this.testList[i-1];
     }
 
     public static getRejectReason(i:number):string{
@@ -65,10 +67,18 @@ constructor(rmaid:string,guid:string,id:number,physicalInspectionResult:number,r
             return list[5];
     }
     public static getTime(utc:number):string{
-        // var date = new Date();
-        // date.setTime(utc.valueOf() - 60000 * utc.getTimezoneOffset());
-
         return (new Date(utc*1000)+"").substr(3,12);
+    }
+
+    public static getRejectReasonId(reason:string){
+        const list={"Damaged":1,
+        "Insufficient Packaging":2,
+        "Non-Toshiba device":3,
+        "Item not received":4,
+        "No RMA claim received":5,
+        "unavailable":6
+    };
+    return list[reason];
     }
 
     public preProcess(){

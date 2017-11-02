@@ -19,6 +19,7 @@ export class ReportsComponent implements OnInit {
   pInspection:boolean=false;
   component:boolean=false;
   rmaLength:number;
+  testList=Guid.testList;
 
 
   constructor(private toolService :ToolService) { }
@@ -57,7 +58,7 @@ export class ReportsComponent implements OnInit {
   }
 
   public goNext(){
-    if((this.start+4)>this.rmaLength){
+    if((this.start+4)>=this.rmaLength){
       return false;
     }
    this.start+=4;
@@ -65,7 +66,7 @@ export class ReportsComponent implements OnInit {
   }
 
   public goPrevious(){
-    if((this.start-4)<0){
+    if((this.start-4)<=0){
       return false;
     }
     this.start-=4;
