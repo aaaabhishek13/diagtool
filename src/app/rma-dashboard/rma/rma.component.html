@@ -1,3 +1,6 @@
+<div *ngIf="!fileCount" class="alert alert-danger alert-dismissable fade in">
+    <strong>Info!</strong> Select the xml files for upload. 
+  </div>
 <div class="jumbotron">
     <p>New RMA</p>      
     <form class="form-inline" #newRma="ngForm" (ngSubmit)="createNewRma(newRma)">
@@ -11,9 +14,9 @@
         </div>&nbsp;
         <div class="form-group">
             <label for="file">File:</label>
-            <input multiple type="file" class="form-control" id="file" name="file" (change)="fileChange($event)"  ngModel >
+            <input type="file" class="form-control" id="file" name="file" (change)="fileChange($event)" ngModel  accept=".zip">
           </div>&nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-primary" [disabled]="!newRma.form.valid">Create</button>
+            <button type="submit" rel="tooltip" data-title="Fill in the required fields" class="btn btn-primary" [disabled]="!newRma.form.valid">Create</button>
       </form>
       
   </div>

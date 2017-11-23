@@ -20,8 +20,14 @@ export class ReportsComponent implements OnInit {
   component:boolean=false;
   rmaLength:number;
   testList=Guid.testList;
-
-
+  public pieChartLabels:string[] = ['Sim test', 'Led test', 'zigbee test'];
+  public pieChartData:number[] = [300, 500, 100];
+  public pieChartType:string = 'pie';
+  public doughnutChartLabels:string[] = ['Sim test', 'Led test', 'zigbee test'];
+  public doughnutChartData:number[] = [350, 450, 100];
+  public doughnutChartType:string = 'doughnut';
+ 
+ 
   constructor(private toolService :ToolService) { }
 
   ngOnInit() { 
@@ -66,10 +72,21 @@ export class ReportsComponent implements OnInit {
   }
 
   public goPrevious(){
-    if((this.start-4)<=0){
+    if((this.start-4)<0){
       return false;
     }
     this.start-=4;
     this.end-=4;
   }
+
+   // events
+   public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
+
 }

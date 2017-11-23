@@ -2,3 +2,7 @@
     color: #fff;
     background-color: #373a3c;
 }
+
+btn.disabled {
+    pointer-events: all ;
+  }

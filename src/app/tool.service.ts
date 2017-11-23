@@ -54,5 +54,27 @@ export class ToolService{
         }))
     }
 
+    public uploadFile(file){
+        let headers = new Headers();
+        headers.set('Accept', 'application/json');
+        let options = new RequestOptions({ headers: headers });
+        this.http.post('http://localhost/sampleUpload.php', file, options)
+            .map(res => res.json())
+            .catch(error => Observable.throw(error))
+            .subscribe(
+            data => {
+                
+            },
+            error => console.log(error)
+            );
+
+
+        //    var req = new XMLHttpRequest();
+        //    req.open("POST", "http://localhost/sampleUpload.php");
+        //    req.send(file);
+    }
+
+    
+
 }
 

@@ -10,6 +10,7 @@ import { GuidComponent } from './rma-dashboard/guid/guid.component';
 import { TestResultsComponent } from './rma-dashboard/test-results/test-results.component';
 import { ToolService } from './tool.service';
 import { HttpModule }    from '@angular/http';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { HttpModule }    from '@angular/http';
     BrowserModule,
     FormsModule,
     HttpModule,
+    ChartsModule,
     RouterModule.forRoot([
       {
         path: '',component: RmaDashboardComponent, children:[{path:'',component:RmaComponent},

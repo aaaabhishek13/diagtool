@@ -20,12 +20,14 @@ export class RmaComponent implements OnInit {
   slNo:number=0;
   deleteText:string="Are you sure you want to delete these RMA?";
   test:string="csdc";
-  filesToUpload: Array<File> = [];
+  filesToUpload:File[] = [];
+  fileCount:number=99999;
   content:string[]=new Array();
 
   constructor(private toolService :ToolService) { }
 
   ngOnInit() {
+    $('[rel=tooltip]').tooltip();
     this.toolService.getRmaList().subscribe((response=>{var element=response['response'];
     this.rmaLength=element.length;
         for (var index = 0; index < element.length; index++) {
@@ -105,14 +107,21 @@ export class RmaComponent implements OnInit {
  } 
 
   public createNewRma(form){
-    const formData: any = new FormData();
-    console.log(form.value);
-    const files: Array<File> = this.filesToUpload;
-    for (var i = 0; i < files.length; i++) {
-      formData.append("uploads[]", files[0], files[0]['name']);
-      
+    if(this.fileCount==99999){
+      this.fileCount=0;
+      return;
     }
-    console.log(formData);
+    let formData:FormData = new FormData();
+    formData.append('newRma', new Blob([JSON.stringify({
+      rmaNo: "sadasdasd",
+      creationTime: "12"
+  })], {
+      type: "application/json"
+  }));
+    formData.append('content', this.filesToUpload[0], this.filesToUpload[0].name);
+    this.toolService.uploadFile(formData);
+    
+   //console.log(this.filesToUpload);
   }
 
   public deleteRma(){
@@ -145,31 +154,28 @@ export class RmaComponent implements OnInit {
   }
 
   public fileChange(event){
-    this.filesToUpload=<Array<File>>event.target.files;
+    this.filesToUpload=[];
     var fileList: FileList = event.target.files;
-    console.log(fileList);
-    for (var i = 0; i < fileList.length; i++) {
-      this.fileToText(fileList[i], (text) => {
-        console.log(text);
-       });
-    }
+    this.filesToUpload= event.target.files;
+    this.fileCount=fileList.length;
+    
+    //console.log(formData);
+    
+    // for (var i = 0; i < fileList.length; i++) {
+    //   this.fileToText(fileList[i], (fileName,text) => {
+    //     this.filesToUpload.push({"xmlName":fileName,"content":text});
+    //     //console.log(file);
+    //    });
+    // }
 
-      // var file:File=fileList[0];
-      // // console.log(file);
-      //  var myReader:FileReader = new FileReader();
-       
-      //      myReader.onloadend = function(e){
-      //        console.log(myReader.result);
-      //      }
-      //      myReader.readAsText(file);
-      
+    
     }
 
     public fileToText(file, callback) {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
-        callback(reader.result);
+        callback(file.name,reader.result);
       };
     }
 
